@@ -22,6 +22,172 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- Ambient background ---------- */
+
+.ambient-grid {
+  position: absolute;
+  inset: -1px;
+  background-image:
+    linear-gradient(#2a312c 1px, transparent 1px),
+    linear-gradient(90deg, #2a312c 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.16;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+}
+
+.ambient-blob {
+  position: absolute;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.22;
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+.ambient-blob-a {
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle, #4c7a5e, transparent 70%);
+}
+
+.ambient-blob-b {
+  bottom: -14%;
+  right: -6%;
+  background: radial-gradient(circle, #b4623c, transparent 70%);
+  animation-delay: -12s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(4%, 6%) scale(1.08);
+  }
+}
+
+.ambient-spot {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    360px circle at var(--spot-x, 50%) var(--spot-y, 0px),
+    rgba(243, 241, 236, 0.06),
+    transparent 70%
+  );
+}
+
+/* ---------- Tilt cards ---------- */
+
+.tilt-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  transform: perspective(800px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 220ms ease-out, border-color 220ms ease-out, box-shadow 220ms ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilt-card:hover {
+  border-color: #4c7a5e;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+}
+
+.tilt-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease-out;
+  background: radial-gradient(
+    220px circle at var(--mx) var(--my),
+    rgba(243, 241, 236, 0.08),
+    transparent 60%
+  );
+}
+
+.tilt-card:hover .tilt-sheen {
+  opacity: 1;
+}
+
+/* ---------- Price flash ---------- */
+
+@keyframes flash-up {
+  0% {
+    color: #f3f1ec;
+  }
+  30% {
+    color: #4c7a5e;
+  }
+  100% {
+    color: inherit;
+  }
+}
+
+@keyframes flash-down {
+  0% {
+    color: #f3f1ec;
+  }
+  30% {
+    color: #b4623c;
+  }
+  100% {
+    color: inherit;
+  }
+}
+
+.flash-up {
+  animation: flash-up 900ms ease-out;
+}
+
+.flash-down {
+  animation: flash-down 900ms ease-out;
+}
+
+/* ---------- Entrance ---------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 600ms ease-out both;
+}
+
+/* ---------- Floating hero stack ---------- */
+
+@keyframes float-a {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateX(8deg) rotateY(-14deg); }
+  50% { transform: translate3d(0, -10px, 0) rotateX(8deg) rotateY(-14deg); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translate3d(0, 0, 30px) rotateX(4deg) rotateY(-8deg); }
+  50% { transform: translate3d(0, -14px, 30px) rotateX(4deg) rotateY(-8deg); }
+}
+
+.float-a {
+  animation: float-a 6s ease-in-out infinite;
+}
+
+.float-b {
+  animation: float-b 7s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
