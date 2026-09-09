@@ -42,9 +42,11 @@ body {
   max-width: 620px;
   max-height: 620px;
   border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.22;
-  animation: drift 26s ease-in-out infinite alternate;
+  filter: blur(48px);
+  opacity: 0.16;
+  transform: translateZ(0);
+  animation: drift 40s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .ambient-blob-a {

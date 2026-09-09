@@ -7,15 +7,21 @@ import { useEffect, useRef } from 'react';
 // and never risks a build/runtime dependency failure.
 export function AmbientField() {
   const spotRef = useRef<HTMLDivElement>(null);
+  const frame = useRef<number | null>(null);
 
   useEffect(() => {
     function handleMove(e: MouseEvent) {
-      const el = spotRef.current;
-      if (!el) return;
-      el.style.setProperty('--spot-x', `${e.clientX}px`);
-      el.style.setProperty('--spot-y', `${e.clientY}px`);
+      if (frame.current !== null) return;
+      frame.current = requestAnimationFrame(() => {
+        const el = spotRef.current;
+        if (el) {
+          el.style.setProperty('--spot-x', `${e.clientX}px`);
+          el.style.setProperty('--spot-y', `${e.clientY}px`);
+        }
+        frame.current = null;
+      });
     }
-    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mousemove', handleMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMove);
   }, []);
 

@@ -1,13 +1,13 @@
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { coinbaseWallet, injected } from 'wagmi/connectors';
 import * as Attribution from 'ox/erc8021/Attribution';
 
 // Base Builder Code, registered at base.dev > Settings > Builder Codes.
 // This is NOT a meta tag — it's appended to onchain transaction calldata
 // so activity from this app is attributed to the builder account.
 // Docs: https://docs.base.org/apps/builder-codes/app-developers
-export const BUILDER_CODE = process.env.NEXT_PUBLIC_BASE_BUILDER_CODE ?? 'bc_gc827vuh';
+export const BUILDER_CODE = process.env.NEXT_PUBLIC_BASE_BUILDER_CODE ?? 'bc_iiuykn9c';
 
 // Pass this as `dataSuffix` to `sendTransaction` / `sendCalls` when you wire
 // up real trade execution. Base's docs also show a client-level `dataSuffix`
@@ -20,7 +20,10 @@ export const DATA_SUFFIX = Attribution.toDataSuffix({
 
 export const wagmiConfig = createConfig({
   chains: [base],
-  connectors: [coinbaseWallet({ appName: 'EquityOS', preference: 'all' })],
+  connectors: [
+    coinbaseWallet({ appName: 'EquityOS', preference: 'all' }),
+    injected(),
+  ],
   transports: {
     [base.id]: http(),
   },
